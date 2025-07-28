@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+.main-font {
+  font-family: 'Inter', sans-serif;
+}
+
+.font-segoe {
+  font-family: "Segoe UI", sans-serif;
+}
+
+.font-inter {
+  font-family: "Inter", sans-serif;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+/* Change navigation arrow color */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #32323F; /* Tailwind's red-400, for example */
+}
+
+/* Change pagination bullet color */
+.swiper-pagination-bullet {
+  background: #b3b5c7; /* Custom orange */
+  opacity: 1;
+}
+.swiper-pagination-bullet-active {
+  background: #32323F; /* Custom darker orange */
+}
