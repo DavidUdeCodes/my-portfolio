@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useEffect, useState } from "react";
+import React, { Suspense, useRef, useEffect, useState, useCallback } from "react";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera, useGLTF, Html, useProgress } from "@react-three/drei";
 import * as THREE from "three";
@@ -89,7 +89,7 @@ function CameraZoomer({ from, to, active, onZoomEnd, controlsRef }) {
   return null;
 }
 
-// Ground circle (unchanged)
+// Ground circle
 function GroundCircle() {
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
@@ -123,9 +123,11 @@ function Floating({ position, speed = 1, amplitude = 0.5, children }) {
   );
 }
 
-// Main Scene
-function DeskScene({ zooming, onZoomEnd }) {
+// Main Scene: DeskScene owns zooming
+function DeskScene({ onZoomComplete }) {
   const controlsRef = useRef();
+
+  const [zooming, setZooming] = useState(false);
   const [zoomStage, setZoomStage] = useState(0);
   const [screenWhite, setScreenWhite] = useState(false);
   const firstZoomFromRef = useRef(null);
@@ -143,6 +145,21 @@ function DeskScene({ zooming, onZoomEnd }) {
     _shouldSnap: true,
   };
 
+  // Trigger zooming
+  const startZoom = useCallback(() => {
+    if (!zooming) setZooming(true);
+  }, [zooming]);
+
+  // Handle Enter key here
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === "Enter") startZoom();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [startZoom]);
+
+  // When zooming toggles on, capture current camera and begin stage 1
   useEffect(() => {
     if (zooming && controlsRef.current) {
       const camera = controlsRef.current.object;
@@ -172,13 +189,12 @@ function DeskScene({ zooming, onZoomEnd }) {
     }
   }, [zoomStage]);
 
-  // When stage 2 ends, call onZoomEnd
+  // When stage 2 ends, call onZoomComplete
   const handleZoomEnd = () => {
-    if (zoomStage === 1) {
-      // handled by useEffect above
-    } else if (zoomStage === 2) {
+    if (zoomStage === 2) {
       setZoomStage(0);
-      if (onZoomEnd) onZoomEnd();
+      setZooming(false);
+      if (onZoomComplete) onZoomComplete();
     }
   };
 
@@ -191,8 +207,19 @@ function DeskScene({ zooming, onZoomEnd }) {
             Hi, I'm David <span role="img" aria-label="wave">👋</span>
           </div>
           <div className="text-1xl md:text-2xl font-extralight text-gray-100 drop-shadow-lg text-center">
-            Press [enter] to view my portfolio
+            Press [Enter] or{" "}
+            <button
+              className="hover:text-blue-300"
+              onClick={startZoom}
+            >
+              Click Here
+            </button>{" "}
+            to view my portfolio
           </div>
+          {/* Shown on small (phone) screens only */}
+          <p className="mt-2 text-xs sm:text-sm font-extralight text-gray-100 md:hidden">
+            (this website is designed for wider-sized screens)
+          </p>
         </div>
       )}
 
@@ -223,6 +250,8 @@ function DeskScene({ zooming, onZoomEnd }) {
           maxPolarAngle={Math.PI / 2 - 0.05}
         />
         <PerspectiveCamera makeDefault position={[0, 9, 22]} />
+
+        {/* Zoom stages */}
         {zoomStage === 1 && firstZoomFromRef.current && (
           <CameraZoomer
             from={firstZoomFromRef.current}
@@ -246,4 +275,4 @@ function DeskScene({ zooming, onZoomEnd }) {
   );
 }
 
-export default DeskScene; 
+export default DeskScene;

@@ -158,29 +158,39 @@ export default function Portfolio({ onPower }) {
         ref={constraintsRef}
         className="relative flex flex-col items-center h-[calc(100vh-3.25rem)] bg-white bg-cover bg-center main-font overflow-hidden"
       >
-        <div ref={textBlockRef} className="text-center pt-40">
-          <h1 className="text-7xl text-[#32323F] mb-6 z-10">
+        <div
+          ref={textBlockRef}
+          className="text-center pt-56 sm:pt-40"
+        >
+          <h1 className="text-4xl sm:text-5xl md:text-7xl text-[#32323F] mb-2 sm:mb-6 z-10">
             hi! <span className="text-[#4C4E5D]">I'm David</span>
           </h1>
-          <h1 className="text-4xl font-light text-[#32323F] z-10">
+          <h1 className="text-2xl sm:text-4xl font-light text-[#32323F] z-10">
             developer | designer | athlete
           </h1>
-          <p className="mt-4 text-sm font-light text-[#32323F] z-10">
+          {/* Mobile text */}
+          <p className="mt-3 sm:mt-4 text-xs sm:text-sm font-light text-[#32323F] z-10 sm:hidden">
+            (click on the taskbar icons)
+          </p>
+          {/* Tablet/Desktop text */}
+          <p className="mt-3 sm:mt-4 text-xs sm:text-sm font-light text-[#32323F] z-10 hidden sm:block">
             (click on the icons or drag to move them)
           </p>
         </div>
 
         <div className="absolute top-0 left-0 w-full h-full">
-          {initialPositions.length > 0 &&
-            toolbarItems.map((item, index) => (
-              <DraggableIcon
-                key={item.label}
-                item={item}
-                constraintsRef={constraintsRef}
-                initialPosition={initialPositions[index]}
-                onClick={openWindow}
-              />
-            ))}
+          <div className="hidden sm:block">
+            {initialPositions.length > 0 &&
+              toolbarItems.map((item, index) => (
+                <DraggableIcon
+                  key={item.label}
+                  item={item}
+                  constraintsRef={constraintsRef}
+                  initialPosition={initialPositions[index]}
+                  onClick={openWindow}
+                />
+              ))}
+          </div>
 
           {/* Render all open windows */}
           {windows

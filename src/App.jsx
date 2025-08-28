@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGLTF } from "@react-three/drei"; 
 import DeskScene from "./scenes/DeskScene";
@@ -41,22 +41,7 @@ function FadeOverlay({ duration = 1.2, onComplete }) {
 function App() {
   const [is2D, setIs2D] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [zooming, setZooming] = useState(false);
   const [showFade, setShowFade] = useState(true);
-
-  const handleEnter = useCallback(
-    (e) => {
-      if (e.key === "Enter" && !is2D && !zooming) {
-        setZooming(true);
-      }
-    },
-    [is2D, zooming]
-  );
-
-  useEffect(() => {
-    window.addEventListener("keydown", handleEnter);
-    return () => window.removeEventListener("keydown", handleEnter);
-  }, [handleEnter]);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1000); // 1 second
@@ -83,24 +68,22 @@ function App() {
       <AnimatePresence>
         {loading && <LoadingScreen key="loader" />}
       </AnimatePresence>
+
       {!loading && !is2D && (
-      <>
-        <DeskScene
-          key={is2D ? "2d" : "3d"}
-          zooming={zooming}
-          onZoomEnd={() => {
-            setZooming(false);
-            setIs2D(true);
-          }}  
-        />
-        {showFade && (
-          <FadeOverlay
-            duration={1.2}
-            onComplete={() => setShowFade(false)}
+        <>
+          <DeskScene
+            key={is2D ? "2d" : "3d"}
+            onZoomComplete={() => setIs2D(true)}
           />
+          {showFade && (
+            <FadeOverlay
+              duration={1.2}
+              onComplete={() => setShowFade(false)}
+            />
           )}
         </>
       )}
+
       {!loading && is2D && <Portfolio2D onPower={handlePower} />}
     </div>
   );
