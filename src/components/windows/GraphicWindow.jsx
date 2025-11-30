@@ -4,7 +4,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-const images = Array.from({ length: 20 }, (_, i) => `/graphics/graphic ${i + 1}.png`);
+const images = Array.from({ length: 26 }, (_, i) => `/graphics/graphic ${i + 1}.png`);
 
 const GraphicWindow = () => (
   <div>

@@ -11,4 +11,5 @@ export const socialsItems = [
   { label: "Youtube", icon: "/icons/youtube-icon.png", url: "https://www.youtube.com/@DavidUde-ux4xq" },
   { label: "Github", icon: "/icons/github-white-icon.png", url: "https://github.com/DavidUdeCodes" },
   { label: "Athletics Canada", icon: "/icons/ac-icon.png", url: "https://athletics.ca/athlete/david-ude/" },
+  { label: "NCSA", icon: "/icons/ncsa-icon.jpg", url: "https://recruit-match.ncsasports.org/clientrms/athlete_profiles/16979887" }
 ];

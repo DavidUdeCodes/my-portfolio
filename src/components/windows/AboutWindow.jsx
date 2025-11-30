@@ -1,7 +1,7 @@
 const AboutWindow = () => (
   <div className="p-6 main-font max-w-[50vw]">
     <div className="flex flex-row items-center">
-      <img className="w-40 border rounded-[3rem]" src="images/meBasketball.jpg" alt="Me Basketball"/>
+      <img className="w-40 border rounded-[1rem] border-transparent" src="images/meChill.jpg" alt="Me Basketball"/>
       <div className="flex flex-col p-4 ml-7"> 
         <h1 className="text-5xl font-medium mb-2 text-[#32323F]">David Ude</h1>
         <p className="mb-2 ml-1">Developer | Designer | Athlete</p>
