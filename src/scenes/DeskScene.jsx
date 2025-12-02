@@ -204,16 +204,16 @@ function DeskScene({ onZoomComplete }) {
       {!zooming && (
         <div className="absolute top-28 left-0 w-full flex flex-col items-center z-10 select-none">
           <div className="text-4xl md:text-6xl text-gray-200 mb-4 font-bold">
-            hello, I'm David <span role="img" aria-label="wave">👋</span>
+            David's Portfolio
           </div>
           <div className="text-1xl md:text-2xl font-extralight text-gray-100 drop-shadow-lg text-center">
             <button
               className="hover:text-blue-300"
               onClick={startZoom}
             >
-              Press [Enter] or{" "}
-              Click Here
-              to view my portfolio
+              Press [Enter] or
+              click here
+              to re-enter the portfolio
             </button>
           </div>
           {/* Shown on small (phone) screens only */}
